@@ -11,5 +11,5 @@ swap_file_path: /dev/mapper/packer--debian--10--amd64--vg-swap_1
 # Kubernetes configuration.
 kubernetes_version: '1.19'
 kubernetes_allow_pods_on_master: false
-kubernetes_apiserver_advertise_address: '192.168.2.41'
+kubernetes_apiserver_advertise_address: '192.168.2.20'
 kubernetes_kubelet_extra_args: '--node-ip={{ ansible_host }}'

@@ -12,8 +12,8 @@
   roles:
     - geerlingguy.security
     - geerlingguy.swap
-  #   - geerlingguy.docker
-  #   - geerlingguy.kubernetes
+    - geerlingguy.docker
+    - geerlingguy.kubernetes
 
   tasks:
   - name: Printing Fact Variables                                         
