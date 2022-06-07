@@ -1,0 +1,27 @@
+---
+k8sCluster:
+  children:
+    controller:
+    workers:
+
+controller:
+  vars:
+    ansible_ssh_user: don
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    ansible_ssh_pass: ~/.ssh/sshpw
+    kubernetes_apiserver_advertise_address: 192.168.2.20
+
+  hosts:
+    k8s0.ag6hq.net:
+
+workers:
+  vars:
+    ansible_ssh_user: don
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    ansible_ssh_pass: ~/.ssh/sshpw
+    kubernetes_apiserver_advertise_address: 192.168.2.20
+
+  hosts:
+    k8s1.ag6hq.net:
+    k8s2.ag6hq.net:
+    k8s3.ag6hq.net:

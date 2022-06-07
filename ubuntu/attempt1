@@ -1,0 +1,439 @@
+$ ansible-playbook -i hosts.yaml --ask-become k8sUpdate.yaml 
+BECOME password: 
+
+PLAY [ubuntu] ***********************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************
+ok: [k8s3.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [Just ping for now] ************************************************************************************************************************************
+ok: [k8s3.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+
+TASK [Remove kubernetes for focal] **************************************************************************************************************************
+ok: [k8s3.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [APT Update] *******************************************************************************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [Install PIP] ******************************************************************************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+PLAY RECAP **************************************************************************************************************************************************
+k8s0.ag6hq.net             : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k8s1.ag6hq.net             : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k8s2.ag6hq.net             : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k8s3.ag6hq.net             : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+don@IdeaPad-Ubuntu:~/Developer/ansible
+$ cd kubernetes/
+don@IdeaPad-Ubuntu:~/Developer/ansible/kubernetes
+$ ansible-playbook -i hosts.yaml --ask-become main.yml 
+BECOME password: 
+
+PLAY [k8sCluster] *******************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************
+ok: [k8s3.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [include_tasks] ****************************************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/tasks/vagrant-setup.yml for k8s0.ag6hq.net, k8s1.ag6hq.net, k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [Use iptables-legacy instead of nftables.] *************************************************************************************************************
+ok: [k8s3.ag6hq.net] => (item={'name': 'iptables', 'path': '/usr/sbin/iptables-legacy'})
+ok: [k8s1.ag6hq.net] => (item={'name': 'iptables', 'path': '/usr/sbin/iptables-legacy'})
+ok: [k8s2.ag6hq.net] => (item={'name': 'iptables', 'path': '/usr/sbin/iptables-legacy'})
+ok: [k8s0.ag6hq.net] => (item={'name': 'iptables', 'path': '/usr/sbin/iptables-legacy'})
+ok: [k8s1.ag6hq.net] => (item={'name': 'ip6tables', 'path': '/usr/sbin/ip6tables-legacy'})
+ok: [k8s3.ag6hq.net] => (item={'name': 'ip6tables', 'path': '/usr/sbin/ip6tables-legacy'})
+ok: [k8s2.ag6hq.net] => (item={'name': 'ip6tables', 'path': '/usr/sbin/ip6tables-legacy'})
+ok: [k8s0.ag6hq.net] => (item={'name': 'ip6tables', 'path': '/usr/sbin/ip6tables-legacy'})
+
+TASK [Retrieve current Flannel manifest from GitHub.] *******************************************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [Patch Flannel manifest with VirtualBox interface.] ****************************************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [Set the correct path for the patched Flannel manifest.] ***********************************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.security : Include OS-specific variables.] ************************************************************************************************
+ok: [k8s0.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.security : include_tasks] *****************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.security/tasks/fail2ban.yml for k8s0.ag6hq.net, k8s1.ag6hq.net, k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.security : Install fail2ban (RedHat).] ****************************************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.security : Install fail2ban (Debian).] ****************************************************************************************************
+changed: [k8s1.ag6hq.net]
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+changed: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.security : Copy fail2ban custom configuration file into place.] ***************************************************************************
+changed: [k8s3.ag6hq.net]
+changed: [k8s1.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+changed: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.security : Ensure fail2ban is running and enabled on boot.] *******************************************************************************
+ok: [k8s1.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.security : include_tasks] *****************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.security/tasks/ssh.yml for k8s0.ag6hq.net, k8s1.ag6hq.net, k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.security : Ensure SSH daemon is running.] *************************************************************************************************
+ok: [k8s1.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.security : Update SSH configuration to be more secure.] ***********************************************************************************
+changed: [k8s1.ag6hq.net] => (item={'regexp': '^PasswordAuthentication', 'line': 'PasswordAuthentication no'})
+changed: [k8s3.ag6hq.net] => (item={'regexp': '^PasswordAuthentication', 'line': 'PasswordAuthentication no'})
+changed: [k8s2.ag6hq.net] => (item={'regexp': '^PasswordAuthentication', 'line': 'PasswordAuthentication no'})
+changed: [k8s0.ag6hq.net] => (item={'regexp': '^PasswordAuthentication', 'line': 'PasswordAuthentication no'})
+changed: [k8s3.ag6hq.net] => (item={'regexp': '^PermitRootLogin', 'line': 'PermitRootLogin no'})
+changed: [k8s2.ag6hq.net] => (item={'regexp': '^PermitRootLogin', 'line': 'PermitRootLogin no'})
+changed: [k8s1.ag6hq.net] => (item={'regexp': '^PermitRootLogin', 'line': 'PermitRootLogin no'})
+changed: [k8s0.ag6hq.net] => (item={'regexp': '^PermitRootLogin', 'line': 'PermitRootLogin no'})
+changed: [k8s3.ag6hq.net] => (item={'regexp': '^Port', 'line': 'Port 22'})
+changed: [k8s1.ag6hq.net] => (item={'regexp': '^Port', 'line': 'Port 22'})
+changed: [k8s2.ag6hq.net] => (item={'regexp': '^Port', 'line': 'Port 22'})
+changed: [k8s0.ag6hq.net] => (item={'regexp': '^Port', 'line': 'Port 22'})
+changed: [k8s3.ag6hq.net] => (item={'regexp': '^UseDNS', 'line': 'UseDNS no'})
+changed: [k8s1.ag6hq.net] => (item={'regexp': '^UseDNS', 'line': 'UseDNS no'})
+changed: [k8s2.ag6hq.net] => (item={'regexp': '^UseDNS', 'line': 'UseDNS no'})
+changed: [k8s0.ag6hq.net] => (item={'regexp': '^UseDNS', 'line': 'UseDNS no'})
+changed: [k8s3.ag6hq.net] => (item={'regexp': '^PermitEmptyPasswords', 'line': 'PermitEmptyPasswords no'})
+changed: [k8s1.ag6hq.net] => (item={'regexp': '^PermitEmptyPasswords', 'line': 'PermitEmptyPasswords no'})
+changed: [k8s2.ag6hq.net] => (item={'regexp': '^PermitEmptyPasswords', 'line': 'PermitEmptyPasswords no'})
+changed: [k8s0.ag6hq.net] => (item={'regexp': '^PermitEmptyPasswords', 'line': 'PermitEmptyPasswords no'})
+ok: [k8s3.ag6hq.net] => (item={'regexp': '^ChallengeResponseAuthentication', 'line': 'ChallengeResponseAuthentication no'})
+ok: [k8s2.ag6hq.net] => (item={'regexp': '^ChallengeResponseAuthentication', 'line': 'ChallengeResponseAuthentication no'})
+ok: [k8s1.ag6hq.net] => (item={'regexp': '^ChallengeResponseAuthentication', 'line': 'ChallengeResponseAuthentication no'})
+ok: [k8s0.ag6hq.net] => (item={'regexp': '^ChallengeResponseAuthentication', 'line': 'ChallengeResponseAuthentication no'})
+changed: [k8s3.ag6hq.net] => (item={'regexp': '^GSSAPIAuthentication', 'line': 'GSSAPIAuthentication no'})
+changed: [k8s2.ag6hq.net] => (item={'regexp': '^GSSAPIAuthentication', 'line': 'GSSAPIAuthentication no'})
+changed: [k8s1.ag6hq.net] => (item={'regexp': '^GSSAPIAuthentication', 'line': 'GSSAPIAuthentication no'})
+changed: [k8s3.ag6hq.net] => (item={'regexp': '^X11Forwarding', 'line': 'X11Forwarding no'})
+changed: [k8s1.ag6hq.net] => (item={'regexp': '^X11Forwarding', 'line': 'X11Forwarding no'})
+changed: [k8s2.ag6hq.net] => (item={'regexp': '^X11Forwarding', 'line': 'X11Forwarding no'})
+changed: [k8s0.ag6hq.net] => (item={'regexp': '^GSSAPIAuthentication', 'line': 'GSSAPIAuthentication no'})
+changed: [k8s0.ag6hq.net] => (item={'regexp': '^X11Forwarding', 'line': 'X11Forwarding no'})
+
+TASK [geerlingguy.security : Add configured users allowed to connect over ssh] ******************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.security : Add configured groups allowed to connect over ssh] *****************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.security : Add configured user accounts to passwordless sudoers.] *************************************************************************
+
+TASK [geerlingguy.security : Add configured user accounts to passworded sudoers.] ***************************************************************************
+
+TASK [geerlingguy.security : include_tasks] *****************************************************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.security : include_tasks] *****************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.security/tasks/autoupdate-Debian.yml for k8s0.ag6hq.net, k8s1.ag6hq.net, k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.security : Install unattended upgrades package.] ******************************************************************************************
+ok: [k8s1.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.security : Copy unattended-upgrades configuration files in place.] ************************************************************************
+changed: [k8s1.ag6hq.net] => (item=10periodic)
+changed: [k8s3.ag6hq.net] => (item=10periodic)
+changed: [k8s2.ag6hq.net] => (item=10periodic)
+changed: [k8s0.ag6hq.net] => (item=10periodic)
+changed: [k8s1.ag6hq.net] => (item=50unattended-upgrades)
+changed: [k8s3.ag6hq.net] => (item=50unattended-upgrades)
+changed: [k8s2.ag6hq.net] => (item=50unattended-upgrades)
+changed: [k8s0.ag6hq.net] => (item=50unattended-upgrades)
+
+TASK [geerlingguy.swap : Manage swap file entry in fstab.] **************************************************************************************************
+ok: [k8s3.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.swap : include_tasks] *********************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.swap/tasks/disable.yml for k8s0.ag6hq.net, k8s1.ag6hq.net, k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.swap : Disable swap (if configured).] *****************************************************************************************************
+changed: [k8s1.ag6hq.net]
+changed: [k8s3.ag6hq.net]
+changed: [k8s0.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.swap : Ensure swap file doesn't exist (if configured).] ***********************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.swap : include_tasks] *********************************************************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : include_tasks] *******************************************************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : include_tasks] *******************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.docker/tasks/setup-Debian.yml for k8s0.ag6hq.net, k8s1.ag6hq.net, k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.docker : Ensure old versions of Docker are not installed.] ********************************************************************************
+ok: [k8s1.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+
+TASK [geerlingguy.docker : Ensure dependencies are installed.] **********************************************************************************************
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.docker : Ensure additional dependencies are installed (on Ubuntu < 20.04 and any other systems).] *****************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Ensure additional dependencies are installed (on Ubuntu >= 20.04).] **************************************************************
+ok: [k8s1.ag6hq.net]
+ok: [k8s0.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Add Docker apt key.] *************************************************************************************************************
+changed: [k8s1.ag6hq.net]
+changed: [k8s3.ag6hq.net]
+changed: [k8s0.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.docker : Ensure curl is present (on older systems without SNI).] **************************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Add Docker apt key (alternative for older systems without SNI).] *****************************************************************
+skipping: [k8s0.ag6hq.net]
+skipping: [k8s1.ag6hq.net]
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Add Docker repository.] **********************************************************************************************************
+fatal: [k8s1.ag6hq.net]: FAILED! => {"changed": false, "module_stderr": "Shared connection to k8s1.ag6hq.net closed.\r\n", "module_stdout": "\r\nTraceback (most recent call last):\r\n  File \"/home/don/.ansible/tmp/ansible-tmp-1654299193.7966044-19028-19555509088344/AnsiballZ_apt_repository.py\", line 107, in <module>\r\n    _ansiballz_main()\r\n  File \"/home/don/.ansible/tmp/ansible-tmp-1654299193.7966044-19028-19555509088344/AnsiballZ_apt_repository.py\", line 99, in _ansiballz_main\r\n    invoke_module(zipped_mod, temp_path, ANSIBALLZ_PARAMS)\r\n  File \"/home/don/.ansible/tmp/ansible-tmp-1654299193.7966044-19028-19555509088344/AnsiballZ_apt_repository.py\", line 47, in invoke_module\r\n    runpy.run_module(mod_name='ansible.modules.apt_repository', init_globals=dict(_module_fqn='ansible.modules.apt_repository', _modlib_path=modlib_path),\r\n  File \"/usr/lib/python3.8/runpy.py\", line 207, in run_module\r\n    return _run_module_code(code, init_globals, run_name, mod_spec)\r\n  File \"/usr/lib/python3.8/runpy.py\", line 97, in _run_module_code\r\n    _run_code(code, mod_globals, init_globals,\r\n  File \"/usr/lib/python3.8/runpy.py\", line 87, in _run_code\r\n    exec(code, run_globals)\r\n  File \"/tmp/ansible_apt_repository_payload_e9_qeodt/ansible_apt_repository_payload.zip/ansible/modules/apt_repository.py\", line 668, in <module>\r\n  File \"/tmp/ansible_apt_repository_payload_e9_qeodt/ansible_apt_repository_payload.zip/ansible/modules/apt_repository.py\", line 645, in main\r\n  File \"/usr/lib/python3/dist-packages/apt/cache.py\", line 170, in __init__\r\n    self.open(progress)\r\n  File \"/usr/lib/python3/dist-packages/apt/cache.py\", line 232, in open\r\n    self._cache = apt_pkg.Cache(progress)\r\napt_pkg.Error: E:Conflicting values set for option Signed-By regarding source https://download.docker.com/linux/ubuntu/ focal: /usr/share/keyrings/docker-archive-keyring.gpg != , E:The list of sources could not be read.\r\n", "msg": "MODULE FAILURE\nSee stdout/stderr for the exact error", "rc": 1}
+fatal: [k8s0.ag6hq.net]: FAILED! => {"changed": false, "module_stderr": "Shared connection to k8s0.ag6hq.net closed.\r\n", "module_stdout": "\r\nTraceback (most recent call last):\r\n  File \"/home/don/.ansible/tmp/ansible-tmp-1654299193.7864177-19027-116331661734911/AnsiballZ_apt_repository.py\", line 107, in <module>\r\n    _ansiballz_main()\r\n  File \"/home/don/.ansible/tmp/ansible-tmp-1654299193.7864177-19027-116331661734911/AnsiballZ_apt_repository.py\", line 99, in _ansiballz_main\r\n    invoke_module(zipped_mod, temp_path, ANSIBALLZ_PARAMS)\r\n  File \"/home/don/.ansible/tmp/ansible-tmp-1654299193.7864177-19027-116331661734911/AnsiballZ_apt_repository.py\", line 47, in invoke_module\r\n    runpy.run_module(mod_name='ansible.modules.apt_repository', init_globals=dict(_module_fqn='ansible.modules.apt_repository', _modlib_path=modlib_path),\r\n  File \"/usr/lib/python3.8/runpy.py\", line 207, in run_module\r\n    return _run_module_code(code, init_globals, run_name, mod_spec)\r\n  File \"/usr/lib/python3.8/runpy.py\", line 97, in _run_module_code\r\n    _run_code(code, mod_globals, init_globals,\r\n  File \"/usr/lib/python3.8/runpy.py\", line 87, in _run_code\r\n    exec(code, run_globals)\r\n  File \"/tmp/ansible_apt_repository_payload_5lsd_w0z/ansible_apt_repository_payload.zip/ansible/modules/apt_repository.py\", line 668, in <module>\r\n  File \"/tmp/ansible_apt_repository_payload_5lsd_w0z/ansible_apt_repository_payload.zip/ansible/modules/apt_repository.py\", line 645, in main\r\n  File \"/usr/lib/python3/dist-packages/apt/cache.py\", line 170, in __init__\r\n    self.open(progress)\r\n  File \"/usr/lib/python3/dist-packages/apt/cache.py\", line 232, in open\r\n    self._cache = apt_pkg.Cache(progress)\r\napt_pkg.Error: E:Conflicting values set for option Signed-By regarding source https://download.docker.com/linux/ubuntu/ focal: /usr/share/keyrings/docker-archive-keyring.gpg != , E:The list of sources could not be read.\r\n", "msg": "MODULE FAILURE\nSee stdout/stderr for the exact error", "rc": 1}
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.docker : Install Docker.] *****************************************************************************************************************
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Install Docker (with downgrade option).] *****************************************************************************************
+changed: [k8s2.ag6hq.net]
+changed: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Ensure /etc/docker/ directory exists.] *******************************************************************************************
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Configure Docker daemon options.] ************************************************************************************************
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : Ensure Docker is started and enabled at boot.] ***********************************************************************************
+ok: [k8s3.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.docker : Ensure handlers are notified now to avoid firewall conflicts.] *******************************************************************
+
+RUNNING HANDLER [geerlingguy.security : restart ssh] ********************************************************************************************************
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+RUNNING HANDLER [geerlingguy.docker : restart docker] *******************************************************************************************************
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.docker : include_tasks] *******************************************************************************************************************
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.docker : include_tasks] *******************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.docker/tasks/docker-users.yml for k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.docker : Ensure docker users are added to the docker group.] ******************************************************************************
+changed: [k8s2.ag6hq.net] => (item=vagrant)
+changed: [k8s3.ag6hq.net] => (item=vagrant)
+
+TASK [geerlingguy.kubernetes : Include OS-specific variables.] **********************************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : include_tasks] ***************************************************************************************************************
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : include_tasks] ***************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.kubernetes/tasks/setup-Debian.yml for k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.kubernetes : Ensure dependencies are installed.] ******************************************************************************************
+ok: [k8s3.ag6hq.net]
+ok: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Add Kubernetes apt key.] *****************************************************************************************************
+changed: [k8s2.ag6hq.net]
+changed: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Add Kubernetes repository.] **************************************************************************************************
+changed: [k8s2.ag6hq.net]
+changed: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Add Kubernetes apt preferences file to pin a version.] ***********************************************************************
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Ensure dependencies are installed.] ******************************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Install Kubernetes packages.] ************************************************************************************************
+changed: [k8s3.ag6hq.net] => (item={'name': 'kubelet', 'state': 'present'})
+changed: [k8s2.ag6hq.net] => (item={'name': 'kubelet', 'state': 'present'})
+changed: [k8s3.ag6hq.net] => (item={'name': 'kubectl', 'state': 'present'})
+changed: [k8s2.ag6hq.net] => (item={'name': 'kubectl', 'state': 'present'})
+changed: [k8s3.ag6hq.net] => (item={'name': 'kubeadm', 'state': 'present'})
+ok: [k8s3.ag6hq.net] => (item={'name': 'kubernetes-cni', 'state': 'present'})
+changed: [k8s2.ag6hq.net] => (item={'name': 'kubeadm', 'state': 'present'})
+ok: [k8s2.ag6hq.net] => (item={'name': 'kubernetes-cni', 'state': 'present'})
+
+TASK [geerlingguy.kubernetes : include_tasks] ***************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.kubernetes/tasks/sysctl-setup.yml for k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.kubernetes : Ensure procps is installed.] *************************************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Let iptables see bridged traffic.] *******************************************************************************************
+changed: [k8s3.ag6hq.net] => (item=net.bridge.bridge-nf-call-iptables)
+changed: [k8s2.ag6hq.net] => (item=net.bridge.bridge-nf-call-iptables)
+changed: [k8s3.ag6hq.net] => (item=net.bridge.bridge-nf-call-ip6tables)
+changed: [k8s2.ag6hq.net] => (item=net.bridge.bridge-nf-call-ip6tables)
+
+TASK [geerlingguy.kubernetes : include_tasks] ***************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.kubernetes/tasks/kubelet-setup.yml for k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.kubernetes : Check for existence of kubelet environment file. (deprecated)] ***************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Set facts for KUBELET_EXTRA_ARGS task if environment file exists. (deprecated)] **********************************************
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Set facts for KUBELET_EXTRA_ARGS task if environment file doesn't exist. (deprecated)] ***************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Configure KUBELET_EXTRA_ARGS. (deprecated)] **********************************************************************************
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Reload systemd unit if args were changed. (deprecated)] **********************************************************************
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Ensure kubelet is started and enabled at boot.] ******************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Check if Kubernetes has already been initialized.] ***************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : include_tasks] ***************************************************************************************************************
+included: /home/don/Developer/ansible/kubernetes/roles/geerlingguy.kubernetes/tasks/master-setup.yml for k8s2.ag6hq.net, k8s3.ag6hq.net
+
+TASK [geerlingguy.kubernetes : Create the directory for the kubernetes_config_file] *************************************************************************
+ok: [k8s2.ag6hq.net]
+ok: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Deploy the config-file for kubeadm and kubelet] ******************************************************************************
+changed: [k8s3.ag6hq.net]
+changed: [k8s2.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Initialize Kubernetes master with kubeadm init] ******************************************************************************
+skipping: [k8s2.ag6hq.net]
+skipping: [k8s3.ag6hq.net]
+
+TASK [geerlingguy.kubernetes : Initialize Kubernetes master with kubeadm init and ignore_preflight_errors] **************************************************
+fatal: [k8s3.ag6hq.net]: FAILED! => {"changed": true, "cmd": ["kubeadm", "init", "--config", "/etc/kubernetes/kubeadm-kubelet-config.yaml", "--ignore-preflight-errors=all"], "delta": "0:05:01.457921", "end": "2022-06-03 23:39:47.974746", "msg": "non-zero return code", "rc": 1, "start": "2022-06-03 23:34:46.516825", "stderr": "W0603 23:34:47.350522 2777651 configset.go:348] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]\n\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/\n\t[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 20.10.16. Latest validated version: 19.03\nerror execution phase wait-control-plane: couldn't initialize a Kubernetes cluster\nTo see the stack trace of this error execute with --v=5 or higher", "stderr_lines": ["W0603 23:34:47.350522 2777651 configset.go:348] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]", "\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/", "\t[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 20.10.16. Latest validated version: 19.03", "error execution phase wait-control-plane: couldn't initialize a Kubernetes cluster", "To see the stack trace of this error execute with --v=5 or higher"], "stdout": "[init] Using Kubernetes version: v1.19.16\n[preflight] Running pre-flight checks\n[preflight] Pulling images required for setting up a Kubernetes cluster\n[preflight] This might take a minute or two, depending on the speed of your internet connection\n[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'\n[certs] Using certificateDir folder \"/etc/kubernetes/pki\"\n[certs] Generating \"ca\" certificate and key\n[certs] Generating \"apiserver\" certificate and key\n[certs] apiserver serving cert is signed for DNS names [k8s3 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.56.2]\n[certs] Generating \"apiserver-kubelet-client\" certificate and key\n[certs] Generating \"front-proxy-ca\" certificate and key\n[certs] Generating \"front-proxy-client\" certificate and key\n[certs] Generating \"etcd/ca\" certificate and key\n[certs] Generating \"etcd/server\" certificate and key\n[certs] etcd/server serving cert is signed for DNS names [k8s3 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]\n[certs] Generating \"etcd/peer\" certificate and key\n[certs] etcd/peer serving cert is signed for DNS names [k8s3 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]\n[certs] Generating \"etcd/healthcheck-client\" certificate and key\n[certs] Generating \"apiserver-etcd-client\" certificate and key\n[certs] Generating \"sa\" key and public key\n[kubeconfig] Using kubeconfig folder \"/etc/kubernetes\"\n[kubeconfig] Writing \"admin.conf\" kubeconfig file\n[kubeconfig] Writing \"kubelet.conf\" kubeconfig file\n[kubeconfig] Writing \"controller-manager.conf\" kubeconfig file\n[kubeconfig] Writing \"scheduler.conf\" kubeconfig file\n[kubelet-start] Writing kubelet environment file with flags to file \"/var/lib/kubelet/kubeadm-flags.env\"\n[kubelet-start] Writing kubelet configuration to file \"/var/lib/kubelet/config.yaml\"\n[kubelet-start] Starting the kubelet\n[control-plane] Using manifest folder \"/etc/kubernetes/manifests\"\n[control-plane] Creating static Pod manifest for \"kube-apiserver\"\n[control-plane] Creating static Pod manifest for \"kube-controller-manager\"\n[control-plane] Creating static Pod manifest for \"kube-scheduler\"\n[etcd] Creating static Pod manifest for local etcd in \"/etc/kubernetes/manifests\"\n[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory \"/etc/kubernetes/manifests\". This can take up to 4m0s\n[kubelet-check] Initial timeout of 40s passed.\n\n\tUnfortunately, an error has occurred:\n\t\ttimed out waiting for the condition\n\n\tThis error is likely caused by:\n\t\t- The kubelet is not running\n\t\t- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)\n\n\tIf you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:\n\t\t- 'systemctl status kubelet'\n\t\t- 'journalctl -xeu kubelet'\n\n\tAdditionally, a control plane component may have crashed or exited when started by the container runtime.\n\tTo troubleshoot, list all containers using your preferred container runtimes CLI.\n\n\tHere is one example how you may list all Kubernetes containers running in docker:\n\t\t- 'docker ps -a | grep kube | grep -v pause'\n\t\tOnce you have found the failing container, you can inspect its logs with:\n\t\t- 'docker logs CONTAINERID'", "stdout_lines": ["[init] Using Kubernetes version: v1.19.16", "[preflight] Running pre-flight checks", "[preflight] Pulling images required for setting up a Kubernetes cluster", "[preflight] This might take a minute or two, depending on the speed of your internet connection", "[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'", "[certs] Using certificateDir folder \"/etc/kubernetes/pki\"", "[certs] Generating \"ca\" certificate and key", "[certs] Generating \"apiserver\" certificate and key", "[certs] apiserver serving cert is signed for DNS names [k8s3 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.56.2]", "[certs] Generating \"apiserver-kubelet-client\" certificate and key", "[certs] Generating \"front-proxy-ca\" certificate and key", "[certs] Generating \"front-proxy-client\" certificate and key", "[certs] Generating \"etcd/ca\" certificate and key", "[certs] Generating \"etcd/server\" certificate and key", "[certs] etcd/server serving cert is signed for DNS names [k8s3 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]", "[certs] Generating \"etcd/peer\" certificate and key", "[certs] etcd/peer serving cert is signed for DNS names [k8s3 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]", "[certs] Generating \"etcd/healthcheck-client\" certificate and key", "[certs] Generating \"apiserver-etcd-client\" certificate and key", "[certs] Generating \"sa\" key and public key", "[kubeconfig] Using kubeconfig folder \"/etc/kubernetes\"", "[kubeconfig] Writing \"admin.conf\" kubeconfig file", "[kubeconfig] Writing \"kubelet.conf\" kubeconfig file", "[kubeconfig] Writing \"controller-manager.conf\" kubeconfig file", "[kubeconfig] Writing \"scheduler.conf\" kubeconfig file", "[kubelet-start] Writing kubelet environment file with flags to file \"/var/lib/kubelet/kubeadm-flags.env\"", "[kubelet-start] Writing kubelet configuration to file \"/var/lib/kubelet/config.yaml\"", "[kubelet-start] Starting the kubelet", "[control-plane] Using manifest folder \"/etc/kubernetes/manifests\"", "[control-plane] Creating static Pod manifest for \"kube-apiserver\"", "[control-plane] Creating static Pod manifest for \"kube-controller-manager\"", "[control-plane] Creating static Pod manifest for \"kube-scheduler\"", "[etcd] Creating static Pod manifest for local etcd in \"/etc/kubernetes/manifests\"", "[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory \"/etc/kubernetes/manifests\". This can take up to 4m0s", "[kubelet-check] Initial timeout of 40s passed.", "", "\tUnfortunately, an error has occurred:", "\t\ttimed out waiting for the condition", "", "\tThis error is likely caused by:", "\t\t- The kubelet is not running", "\t\t- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)", "", "\tIf you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:", "\t\t- 'systemctl status kubelet'", "\t\t- 'journalctl -xeu kubelet'", "", "\tAdditionally, a control plane component may have crashed or exited when started by the container runtime.", "\tTo troubleshoot, list all containers using your preferred container runtimes CLI.", "", "\tHere is one example how you may list all Kubernetes containers running in docker:", "\t\t- 'docker ps -a | grep kube | grep -v pause'", "\t\tOnce you have found the failing container, you can inspect its logs with:", "\t\t- 'docker logs CONTAINERID'"]}
+fatal: [k8s2.ag6hq.net]: FAILED! => {"changed": true, "cmd": ["kubeadm", "init", "--config", "/etc/kubernetes/kubeadm-kubelet-config.yaml", "--ignore-preflight-errors=all"], "delta": "0:05:03.627878", "end": "2022-06-03 23:39:50.102993", "msg": "non-zero return code", "rc": 1, "start": "2022-06-03 23:34:46.475115", "stderr": "W0603 23:34:47.344618 2778774 configset.go:348] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]\n\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/\n\t[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 20.10.16. Latest validated version: 19.03\nerror execution phase wait-control-plane: couldn't initialize a Kubernetes cluster\nTo see the stack trace of this error execute with --v=5 or higher", "stderr_lines": ["W0603 23:34:47.344618 2778774 configset.go:348] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]", "\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/", "\t[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 20.10.16. Latest validated version: 19.03", "error execution phase wait-control-plane: couldn't initialize a Kubernetes cluster", "To see the stack trace of this error execute with --v=5 or higher"], "stdout": "[init] Using Kubernetes version: v1.19.16\n[preflight] Running pre-flight checks\n[preflight] Pulling images required for setting up a Kubernetes cluster\n[preflight] This might take a minute or two, depending on the speed of your internet connection\n[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'\n[certs] Using certificateDir folder \"/etc/kubernetes/pki\"\n[certs] Generating \"ca\" certificate and key\n[certs] Generating \"apiserver\" certificate and key\n[certs] apiserver serving cert is signed for DNS names [k8s2 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.56.2]\n[certs] Generating \"apiserver-kubelet-client\" certificate and key\n[certs] Generating \"front-proxy-ca\" certificate and key\n[certs] Generating \"front-proxy-client\" certificate and key\n[certs] Generating \"etcd/ca\" certificate and key\n[certs] Generating \"etcd/server\" certificate and key\n[certs] etcd/server serving cert is signed for DNS names [k8s2 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]\n[certs] Generating \"etcd/peer\" certificate and key\n[certs] etcd/peer serving cert is signed for DNS names [k8s2 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]\n[certs] Generating \"etcd/healthcheck-client\" certificate and key\n[certs] Generating \"apiserver-etcd-client\" certificate and key\n[certs] Generating \"sa\" key and public key\n[kubeconfig] Using kubeconfig folder \"/etc/kubernetes\"\n[kubeconfig] Writing \"admin.conf\" kubeconfig file\n[kubeconfig] Writing \"kubelet.conf\" kubeconfig file\n[kubeconfig] Writing \"controller-manager.conf\" kubeconfig file\n[kubeconfig] Writing \"scheduler.conf\" kubeconfig file\n[kubelet-start] Writing kubelet environment file with flags to file \"/var/lib/kubelet/kubeadm-flags.env\"\n[kubelet-start] Writing kubelet configuration to file \"/var/lib/kubelet/config.yaml\"\n[kubelet-start] Starting the kubelet\n[control-plane] Using manifest folder \"/etc/kubernetes/manifests\"\n[control-plane] Creating static Pod manifest for \"kube-apiserver\"\n[control-plane] Creating static Pod manifest for \"kube-controller-manager\"\n[control-plane] Creating static Pod manifest for \"kube-scheduler\"\n[etcd] Creating static Pod manifest for local etcd in \"/etc/kubernetes/manifests\"\n[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory \"/etc/kubernetes/manifests\". This can take up to 4m0s\n[kubelet-check] Initial timeout of 40s passed.\n\n\tUnfortunately, an error has occurred:\n\t\ttimed out waiting for the condition\n\n\tThis error is likely caused by:\n\t\t- The kubelet is not running\n\t\t- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)\n\n\tIf you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:\n\t\t- 'systemctl status kubelet'\n\t\t- 'journalctl -xeu kubelet'\n\n\tAdditionally, a control plane component may have crashed or exited when started by the container runtime.\n\tTo troubleshoot, list all containers using your preferred container runtimes CLI.\n\n\tHere is one example how you may list all Kubernetes containers running in docker:\n\t\t- 'docker ps -a | grep kube | grep -v pause'\n\t\tOnce you have found the failing container, you can inspect its logs with:\n\t\t- 'docker logs CONTAINERID'", "stdout_lines": ["[init] Using Kubernetes version: v1.19.16", "[preflight] Running pre-flight checks", "[preflight] Pulling images required for setting up a Kubernetes cluster", "[preflight] This might take a minute or two, depending on the speed of your internet connection", "[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'", "[certs] Using certificateDir folder \"/etc/kubernetes/pki\"", "[certs] Generating \"ca\" certificate and key", "[certs] Generating \"apiserver\" certificate and key", "[certs] apiserver serving cert is signed for DNS names [k8s2 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.56.2]", "[certs] Generating \"apiserver-kubelet-client\" certificate and key", "[certs] Generating \"front-proxy-ca\" certificate and key", "[certs] Generating \"front-proxy-client\" certificate and key", "[certs] Generating \"etcd/ca\" certificate and key", "[certs] Generating \"etcd/server\" certificate and key", "[certs] etcd/server serving cert is signed for DNS names [k8s2 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]", "[certs] Generating \"etcd/peer\" certificate and key", "[certs] etcd/peer serving cert is signed for DNS names [k8s2 localhost] and IPs [192.168.56.2 127.0.0.1 ::1]", "[certs] Generating \"etcd/healthcheck-client\" certificate and key", "[certs] Generating \"apiserver-etcd-client\" certificate and key", "[certs] Generating \"sa\" key and public key", "[kubeconfig] Using kubeconfig folder \"/etc/kubernetes\"", "[kubeconfig] Writing \"admin.conf\" kubeconfig file", "[kubeconfig] Writing \"kubelet.conf\" kubeconfig file", "[kubeconfig] Writing \"controller-manager.conf\" kubeconfig file", "[kubeconfig] Writing \"scheduler.conf\" kubeconfig file", "[kubelet-start] Writing kubelet environment file with flags to file \"/var/lib/kubelet/kubeadm-flags.env\"", "[kubelet-start] Writing kubelet configuration to file \"/var/lib/kubelet/config.yaml\"", "[kubelet-start] Starting the kubelet", "[control-plane] Using manifest folder \"/etc/kubernetes/manifests\"", "[control-plane] Creating static Pod manifest for \"kube-apiserver\"", "[control-plane] Creating static Pod manifest for \"kube-controller-manager\"", "[control-plane] Creating static Pod manifest for \"kube-scheduler\"", "[etcd] Creating static Pod manifest for local etcd in \"/etc/kubernetes/manifests\"", "[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory \"/etc/kubernetes/manifests\". This can take up to 4m0s", "[kubelet-check] Initial timeout of 40s passed.", "", "\tUnfortunately, an error has occurred:", "\t\ttimed out waiting for the condition", "", "\tThis error is likely caused by:", "\t\t- The kubelet is not running", "\t\t- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)", "", "\tIf you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:", "\t\t- 'systemctl status kubelet'", "\t\t- 'journalctl -xeu kubelet'", "", "\tAdditionally, a control plane component may have crashed or exited when started by the container runtime.", "\tTo troubleshoot, list all containers using your preferred container runtimes CLI.", "", "\tHere is one example how you may list all Kubernetes containers running in docker:", "\t\t- 'docker ps -a | grep kube | grep -v pause'", "\t\tOnce you have found the failing container, you can inspect its logs with:", "\t\t- 'docker logs CONTAINERID'"]}
+
+RUNNING HANDLER [geerlingguy.kubernetes : restart kubelet] **************************************************************************************************
+
+PLAY RECAP **************************************************************************************************************************************************
+k8s0.ag6hq.net             : ok=23   changed=6    unreachable=0    failed=1    skipped=14   rescued=0    ignored=0   
+k8s1.ag6hq.net             : ok=23   changed=6    unreachable=0    failed=1    skipped=14   rescued=0    ignored=0   
+k8s2.ag6hq.net             : ok=51   changed=20   unreachable=0    failed=1    skipped=21   rescued=0    ignored=0   
+k8s3.ag6hq.net             : ok=51   changed=20   unreachable=0    failed=1    skipped=21   rescued=0    ignored=0   
