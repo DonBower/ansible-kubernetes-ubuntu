@@ -1,0 +1,30 @@
+---
+- hosts: k8sCluster
+  become: true
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - include_tasks: tasks/vagrant-setup.yml
+      when: inventory_hostname == 'k8s0.ag6hq.net'
+ 
+  roles:
+    - geerlingguy.security
+    - geerlingguy.swap
+    - geerlingguy.docker
+    - geerlingguy.kubernetes
+
+  tasks:
+  - name: Printing Fact Variables                                         
+    debug:                                                                
+      msg: "The value of OS Family is {{ansible_os_family}}"   
+
+
+
+  - name: Install Packages
+    apt:
+      name: 
+      - python3-pip
+      - curl
+      state: present
