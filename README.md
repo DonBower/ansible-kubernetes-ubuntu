@@ -11,4 +11,7 @@ Also, I am using ansible [core 2.12.6].
 
 So let's get started.
 
+## 2022-06-10 Some Success
+The [Vagrant plugin](https://github.com/josenk/vagrant-vmware-esxi) is working.  Thanks to an upgrade of ovftool to 4.4.3. The version I was using previously, 4.3.1, had the bug. The upgrade cleared everything up, it's working well now.
 
+`virtualbox-via-vagrant` is also working well.  I just need to update this to start using my own certs, because when I have multiple clusters created, the `client-certificate-data:` and `client-key-data:` for kubernetes-admin are different, and for me to circle around, I either need the same cert or multiple .kube/config files.  I may choose the latter
