@@ -5,6 +5,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "geerlingguy/debian10"
+  config.vm.box = "generic/ubuntu2004"
   config.ssh.insert_key = false
   config.vm.provider "vmware_esxi"
   config.vm.synced_folder '.', '/vagrant', disabled: true
@@ -17,11 +18,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.esxi_hostname = 'myesxi.ag6hq.net'
     v.esxi_username = 'root'
     v.esxi_password = 'file:~/.ssh/esxirootpw'
+    v.debug = 'true'
 
-    v.memory = 2048
-    v.cpus = 2
-    v.linked_clone = true
-    v.customize ['modifyvm', :id, '--audio', 'none']
+    # v.memory = 2048
+    # v.cpus = 2
+    # v.linked_clone = true
+    # v.customize ['modifyvm', :id, '--audio', 'none']
   end
 
   # Define three VMs with static private IP addresses.
@@ -41,7 +43,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       if index == boxes.size - 1
         config.vm.provision "ansible" do |ansible|
           ansible.compatibility_mode = "2.0"
-          ansible.playbook = "main.yml"
+          # ansible.playbook = "main.yml"
+          ansible.playbook = "justping.yaml"
           ansible.inventory_path = "inventory"
           ansible.limit = "all"
         end
