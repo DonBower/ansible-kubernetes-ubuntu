@@ -1,0 +1,13 @@
+- hosts: kube
+  tasks:
+    - command: /bin/echo "this is a test"
+      register: foo
+      when: inventory_hostname == 'kube1'
+
+- hosts: localHost
+  tasks:
+    - debug: var=foo
+      when: foo is defined
+
+    - debug: var=hostvars['kube1']['foo']
+      when: hostvars['kube1']['foo'].changed

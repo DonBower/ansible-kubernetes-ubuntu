@@ -1,0 +1,46 @@
+---
+- hosts: kube
+  become: true
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - include_tasks: tasks/vagrant-setup.yml
+
+  roles:
+    - geerlingguy.security
+    - geerlingguy.swap
+    - geerlingguy.docker
+    - geerlingguy.kubernetes
+
+  tasks:
+  - name: Install Packages
+    apt:
+      name: 
+      - python3-pip
+      - curl
+      state: present
+
+  - name: Fetch the file from the master to ansible
+    run_once: yes
+    fetch: src=/etc/kubernetes/admin.conf dest=/tmp/kube.config flat=yes
+    when: kubernetes_role == 'master'
+    register: kubeConfigFetched
+
+# - name: a play that runs entirely on the ansible host
+#   hosts: thisHost
+#   connection: local
+
+#   tasks:
+#   - name: Merge new kube config with current
+#     ansible.builtin.shell:
+#       cmd: "KUBECONFIG=~/.kube/config:/tmp/kube.config kubectl config view --flatten > ~/.kube/config.new"
+#     when: hostvars['kube1']['kubeConfigFetched'].changed
+#     register: kubeConfigMerged
+
+#   - name: Use new kube config
+#     ansible.builtin.copy:
+#       src: ~/.kube/config.new
+#       dest: ~/.kube/config
+#     when: kubeConfigMerged.changed
