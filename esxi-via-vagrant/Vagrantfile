@@ -16,8 +16,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.esxi_password = 'file:~/.ssh/esxirootpw'
     v.debug = 'true'
 
-    # v.memory = 2048
-    # v.cpus = 2
+    v.guest_memsize = 2048
+    v.guest_numvcpus = 2
+    v.guest_disk_type = 'thin'
+    v.guest_storage = [ 64, 16, 16 ]
+    v.guest_virtualhw_version = 19
+    v.esxi_virtual_network = ['VM Network']
+    v.esxi_disk_store = 'datastore1'
+
     # v.linked_clone = true
     # v.customize ['modifyvm', :id, '--audio', 'none']
   end
@@ -32,8 +38,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Configure each of the VMs.
   boxes.each_with_index do |opts, index|
     config.vm.define opts[:name] do |config|
-      config.vm.hostname = opts[:name] + ".cluster.test"
-      config.vm.network :private_network, ip: opts[:ip]
+      config.vm.hostname = opts[:name] + ".ag6hq.net"
+      config.vm.network :public_network, ip: opts[:ip]
 
       # Provision all the VMs using Ansible after last VM is up.
       if index == boxes.size - 1

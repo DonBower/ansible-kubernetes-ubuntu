@@ -1,5 +1,6 @@
 ---
-- hosts: kube
+- name: A Playbook that installs kubernetes on remote hosts
+  hosts: kube
   become: true
 
   vars_files:
@@ -22,42 +23,51 @@
       - curl
       state: present
 
+  - name: Copy admin.conf to temp location
+    ansible.builtin.copy:
+      remote_src: yes
+      src: /etc/kubernetes/admin.conf
+      dest: /tmp/config.{{ cluster_name }}
+    when: kubernetes_role == 'master'
+
+  - name: Rename kubernetes-admin to cluster_name-admin
+    ansible.builtin.replace:
+      path: /tmp/config.{{ cluster_name }}
+      regexp: 'kubernetes-admin'
+      replace: "{{ cluster_name }}-admin"
+    when: kubernetes_role == 'master'
+
   - name: Fetch the file from the master to ansible
     run_once: yes
     fetch: 
-      src: /etc/kubernetes/admin.conf
+      src: /tmp/config.{{ cluster_name }}
       dest: "~/.kube/config.{{ cluster_name }}"
       flat: yes
     when: kubernetes_role == 'master'
-    register: kubeConfigFetched
+  
+# - name: A play that runs entirely on the ansible host
+#   hosts: thisHost
+#   connection: local
 
-- name: a play that runs entirely on the ansible host
-  hosts: thisHost
-  connection: local
+#   vars_files:
+#   - vars/main.yml
 
-  tasks:
-  - name: Before Ansible 2.3, option 'dest', 'destfile' or 'name' was used instead of 'path'
-    ansible.builtin.replace:
-      path: "~/.kube/config.{{ cluster_name }}"
-      regexp: 'kubernetes-admin'
-      replace: "{{ cluster_name }}-admin"
-    when: hostvars['kube1']['kubeConfigFetched'].changed
-    register: kubeAdminRenamed
+#   tasks:
 
-  - name: Merge new kube config with current
-    ansible.builtin.shell:
-      cmd: "KUBECONFIG=~/.kube/config:~/.kube/config.{{ cluster_name }} kubectl config view --flatten > ~/.kube/config.new"
-    when: kubeAdminRenamed.changed
-    register: kubeConfigMerged
+#   - name: Merge new kube config with current
+#     ansible.builtin.shell:
+#       cmd: "KUBECONFIG=~/.kube/config:~/.kube/config.{{ cluster_name }} kubectl config view --flatten > ~/.kube/config.new"
+#     when: kubeAdminRenamed.changed
+#     register: kubeConfigMerged
 
-  - name: Backup old kube config
-    ansible.builtin.copy:
-      src: ~/.kube/config
-      dest: ~/.kube/config.old
-    when: kubeConfigMerged.changed
+#   - name: Backup old kube config
+#     ansible.builtin.copy:
+#       src: ~/.kube/config
+#       dest: ~/.kube/config.old
+#     when: kubeConfigMerged.changed
 
-  - name: Use new kube config
-    ansible.builtin.copy:
-      src: ~/.kube/config.new
-      dest: ~/.kube/config
-    when: kubeConfigMerged.changed
+#   - name: Use new kube config
+#     ansible.builtin.copy:
+#       src: ~/.kube/config.new
+#       dest: ~/.kube/config
+#     when: kubeConfigMerged.changed
