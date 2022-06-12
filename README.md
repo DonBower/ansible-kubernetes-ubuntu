@@ -21,3 +21,6 @@ I am able to use my on CA.  The trick was reading the error. The server cert/key
 
 I also re-added the code to merge the admin.conf file with my local ~/.kube/config file.  The trick here is to rename the user, kubernetes-admin, to a unique name, otherwise the join merges the two users.
 When I can figure out how to rename that user at build time, or somehow use the same keys for each cluster, then I won't have to fake it out, I can seperate users, or I can use the same user, either way works.
+
+This version has moved the "roles" to a common directory.
+I am also working esxi-via-vagrant.
