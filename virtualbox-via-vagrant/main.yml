@@ -24,7 +24,10 @@
 
   - name: Fetch the file from the master to ansible
     run_once: yes
-    fetch: src=/etc/kubernetes/admin.conf dest=/tmp/kube.config flat=yes
+    fetch: 
+      src: /etc/kubernetes/admin.conf
+      dest: "~/.kube/config.{{ cluster_name }}"
+      flat: yes
     when: kubernetes_role == 'master'
     register: kubeConfigFetched
 
