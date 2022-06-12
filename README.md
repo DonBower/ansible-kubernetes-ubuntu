@@ -15,3 +15,9 @@ So let's get started.
 The [Vagrant plugin](https://github.com/josenk/vagrant-vmware-esxi) is working.  Thanks to an upgrade of ovftool to 4.4.3. The version I was using previously, 4.3.1, had the bug. The upgrade cleared everything up, it's working well now.
 
 `virtualbox-via-vagrant` is also working well.  I just need to update this to start using my own certs, because when I have multiple clusters created, the `client-certificate-data:` and `client-key-data:` for kubernetes-admin are different, and for me to circle around, I either need the same cert or multiple .kube/config files.  I may choose the latter
+
+## 2022-06-11 Some More Success
+I am able to use my on CA.  The trick was reading the error. The server cert/key I was using was not a CA.  It does not want the Server Cert, but the CA.  I have a [Self-signed CA](https://github.com/DonBower/root-ca) I am using for consistancy. Once I used that, Then I was able to have a clean build in [virtualbox-via-vagrant](https://github.com/DonBower/kubernetes-via-ansible/tree/main/virtualbox-via-vagrant).
+
+I also re-added the code to merge the admin.conf file with my local ~/.kube/config file.  The trick here is to rename the user, kubernetes-admin, to a unique name, otherwise the join merges the two users.
+When I can figure out how to rename that user at build time, or somehow use the same keys for each cluster, then I won't have to fake it out, I can seperate users, or I can use the same user, either way works.

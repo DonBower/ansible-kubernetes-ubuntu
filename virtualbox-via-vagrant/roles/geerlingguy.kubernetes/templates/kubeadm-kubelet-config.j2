@@ -5,6 +5,9 @@ kind: InitConfiguration
 ---
 kind: ClusterConfiguration
 apiVersion: kubeadm.k8s.io/v1beta2
+{% if (kubernetes_pki_path is defined) and (kubernetes_pki_path | length > 0) %}
+certificatesDir: {{ kubernetes_pki_path }}
+{% endif %}
 {{ kubernetes_config_cluster_configuration | to_nice_yaml }}
 {% if kubernetes_config_kubelet_configuration|length > 0 %}
 ---

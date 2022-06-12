@@ -18,7 +18,7 @@
   file:
     path: "{{ kubernetes_pki_path }}"
     state: directory
-  when: kubernetes_pki_path|length > 0
+  when: (kubernetes_pki_path is defined) and (kubernetes_pki_path | length > 0)
 
 - name: Deploy Private Key into Kubernetes pki directory.
   ansible.builtin.copy:
@@ -27,7 +27,7 @@
     owner: root
     group: root
     mode: '0600'
-  when: kubernetes_pki_path|length > 0
+  when: (kubernetes_pki_path is defined) and (kubernetes_pki_path | length > 0)
 
 - name: Deploy Cert into Kubernetes pki directory.
   ansible.builtin.copy:
@@ -36,7 +36,7 @@
     owner: root
     group: root
     mode: '0644'
-  when: kubernetes_pki_path|length > 0
+  when: (kubernetes_pki_path is defined) and (kubernetes_pki_path | length > 0)
 
 - name: Initialize Kubernetes master with kubeadm init
   command: >

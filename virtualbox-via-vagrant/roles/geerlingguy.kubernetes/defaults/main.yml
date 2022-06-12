@@ -1,5 +1,11 @@
 ---
-cluster_name: "vbox-cluster"
+cluster_name: "k8s.vbox"
+# kubernetes_pki_cert_file_path: ~/Developer/root-ca/Servers/certs/{{ cluster_name }}.crt 
+# kubernetes_pki_key_file_path: ~/Developer/root-ca/Servers/private/{{ cluster_name }}.key 
+# kubernetes_pki_path: /etc/kubernetes/pki
+kubernetes_pki_cert_file_path: ~/Developer/root-ca/CA/certs/ca.crt 
+kubernetes_pki_key_file_path: ~/Developer/root-ca/CA/private/ca.key 
+kubernetes_pki_path: /etc/kubernetes/pki
 
 kubernetes_packages:
   - name: kubelet
@@ -11,8 +17,8 @@ kubernetes_packages:
   - name: kubernetes-cni
     state: present
 
-kubernetes_version: '1.20'
-kubernetes_version_rhel_package: '1.20.4'
+kubernetes_version: '1.19'
+kubernetes_version_rhel_package: '1.19.03'
 
 kubernetes_role: master
 
@@ -32,7 +38,8 @@ kubernetes_pod_network:
 
 kubernetes_kubeadm_kubelet_config_file_path: '/etc/kubernetes/kubeadm-kubelet-config.yaml'
 kubernetes_config_kubelet_configuration:
-  cgroupDriver: "cgroupfs"
+  cgroupDriver: "systemd"
+  # cgroupDriver: "cgroupfs"
 
 kubernetes_config_init_configuration:
   localAPIEndpoint:

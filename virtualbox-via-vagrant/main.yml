@@ -31,19 +31,33 @@
     when: kubernetes_role == 'master'
     register: kubeConfigFetched
 
-# - name: a play that runs entirely on the ansible host
-#   hosts: thisHost
-#   connection: local
+- name: a play that runs entirely on the ansible host
+  hosts: thisHost
+  connection: local
 
-#   tasks:
-#   - name: Merge new kube config with current
-#     ansible.builtin.shell:
-#       cmd: "KUBECONFIG=~/.kube/config:/tmp/kube.config kubectl config view --flatten > ~/.kube/config.new"
-#     when: hostvars['kube1']['kubeConfigFetched'].changed
-#     register: kubeConfigMerged
+  tasks:
+  - name: Before Ansible 2.3, option 'dest', 'destfile' or 'name' was used instead of 'path'
+    ansible.builtin.replace:
+      path: "~/.kube/config.{{ cluster_name }}"
+      regexp: 'kubernetes-admin'
+      replace: "{{ cluster_name }}-admin"
+    when: hostvars['kube1']['kubeConfigFetched'].changed
+    register: kubeAdminRenamed
 
-#   - name: Use new kube config
-#     ansible.builtin.copy:
-#       src: ~/.kube/config.new
-#       dest: ~/.kube/config
-#     when: kubeConfigMerged.changed
+  - name: Merge new kube config with current
+    ansible.builtin.shell:
+      cmd: "KUBECONFIG=~/.kube/config:~/.kube/config.{{ cluster_name }} kubectl config view --flatten > ~/.kube/config.new"
+    when: kubeAdminRenamed.changed
+    register: kubeConfigMerged
+
+  - name: Backup old kube config
+    ansible.builtin.copy:
+      src: ~/.kube/config
+      dest: ~/.kube/config.old
+    when: kubeConfigMerged.changed
+
+  - name: Use new kube config
+    ansible.builtin.copy:
+      src: ~/.kube/config.new
+      dest: ~/.kube/config
+    when: kubeConfigMerged.changed
