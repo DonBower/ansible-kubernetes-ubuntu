@@ -24,3 +24,11 @@ When I can figure out how to rename that user at build time, or somehow use the 
 
 This version has moved the "roles" to a common directory.
 I am also working esxi-via-vagrant.
+
+## 2022-06-11 Some Ubuntu Success Some esxi-via-vagrant failure
+First the bad news.
+I was not able to get a consistant build of ESXi hosts because the Vagrant file is just not correct.
+It does not build consistantly, sometimes 1 host works, sometimes 2, but never all three, and I really want 4, maybe 5 in the end.
+
+For Ubuntu, I scratched all 4 servers by hand, I know, I know! But afterword, much success.  I do think I need to let the builds settle in before I pound them with all these updates, or perhaps my little ESXi server just can't handle it, not sure which at the moment, so even though two of the hosts did not build the first run, they did build on the second.
+I think I will try to get a Terraform build working, and then give it another throw.
